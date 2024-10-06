@@ -6,13 +6,14 @@ import DashboardCard from '@/app/(DashboardLayout)/components/shared/DashboardCa
 import ProductPerformance from '../../components/dashboard/ProductPerformance';
 
 import PricelistProducts from '../../components/tables/PricelistProducts';
+import RequestItems from '../../components/tables/RequestItems';
 
 
 const SamplePage = () => {
   return (
     <PageContainer title="Drugs Prices" description="Prices for drugs">
       <DashboardCard >
-        <PricelistProducts/>
+        <RequestItems/>
       </DashboardCard>
     </PageContainer>
   );

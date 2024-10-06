@@ -58,7 +58,7 @@ const Pricelists = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pricelist`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pricelists`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -159,10 +159,7 @@ const Pricelists = () => {
             <Button variant="contained" onClick={handleOpenAddModal} disableElevation color="primary" sx={{ width: { xs: '100%', sm: 'auto' } }}>
           Add Pricelist
         </Button>
-        &nbsp;
-        <Button variant="contained" onClick={handleOpenAddModal} disableElevation color="primary" sx={{ width: { xs: '100%', sm: 'auto' } }}>
-          Bulk Upload Pricelist
-        </Button>
+        
                 &nbsp;
                 <TextField
                     variant="outlined"
@@ -267,7 +264,7 @@ const Pricelists = () => {
                                 <TableCell>
                                     <Typography>
                                        <Link
-                                       href={'/pricelists/pricelists_products'}
+                                       href={`/pricelists/pricelists_products?pricelistId=${pricelist.id}`}
                                        >
                                        View
                                        </Link> 

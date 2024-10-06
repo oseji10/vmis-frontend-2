@@ -2,17 +2,16 @@
 import { Typography } from '@mui/material';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 import DashboardCard from '@/app/(DashboardLayout)/components/shared/DashboardCard';
-
-import ProductPerformance from '../../components/dashboard/ProductPerformance';
-
-import PricelistProducts from '../../components/tables/PricelistProducts';
+import NomineesTable from '../../components/tables/HospitalsTable';
+import AddNomineeForm from '../../components/forms/theme-elements/AddNominee';
 
 
 const SamplePage = () => {
   return (
-    <PageContainer title="Drugs Prices" description="Prices for drugs">
+    <PageContainer title="Nominees" description="Nomination Form">
       <DashboardCard >
-        <PricelistProducts/>
+        {/* <Typography>All Nominees</Typography> */}
+        <AddNomineeForm/>
       </DashboardCard>
     </PageContainer>
   );
