@@ -18,7 +18,8 @@ import {
   } from '@mui/material';
   import DashboardCard from '@/app/(DashboardLayout)//components/shared/DashboardCard';
   import { useEffect, useState } from 'react';
-  
+  import { useRouter } from 'next/navigation';
+
   const Hospitals = () => {
     const [hospitals, setHospitals] = useState<Hospital[]>([]);
     const [filteredHospitals, setFilteredHospitals] = useState<Hospital[]>([]);
@@ -32,6 +33,7 @@ import {
     const [shortName, setShortName] = useState('');
     const [location, setLocation] = useState(''); // Location state
   
+    const router = useRouter();
     // Define the modal style for mobile responsiveness
     const modalStyle = {
       position: 'absolute',
@@ -142,9 +144,11 @@ import {
         } else {
           console.error('Error adding hospital');
         }
+        router.refresh();
       } catch (error) {
         console.error('Error adding hospital:', error);
       }
+      
     };
   
     // Pagination logic
@@ -271,7 +275,13 @@ import {
   
         {/* Modal for Adding Hospital */}
         <Modal open={open} onClose={handleClose}>
-          <Box sx={modalStyle}>
+          <Box 
+            sx={{ 
+              ...modalStyle, 
+              maxHeight: '80vh', // Set max height to 80% of the viewport height
+              overflowY: 'auto' // Enable vertical scrolling
+            }}
+          >
             <Typography variant="h6" mb={2}>
               Add Hospital
             </Typography>

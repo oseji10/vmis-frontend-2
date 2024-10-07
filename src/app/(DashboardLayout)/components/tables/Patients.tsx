@@ -286,7 +286,12 @@ import {
   
         {/* Modal for Adding Patient */}
         <Modal open={open} onClose={handleClose}>
-          <Box sx={modalStyle}>
+          <Box   sx={{ 
+      ...modalStyle, 
+      maxHeight: '80vh', // Set max height to 80% of the viewport height
+      overflowY: 'auto' // Enable vertical scrolling
+    }}
+  >
             <Typography variant="h6" mb={2}>
               Add Patient
             </Typography>

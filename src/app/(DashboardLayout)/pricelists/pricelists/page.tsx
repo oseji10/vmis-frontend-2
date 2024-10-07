@@ -7,7 +7,7 @@ import ProductPerformance from '../../components/dashboard/ProductPerformance';
 
 
 
-import Drugs from '../../components/tables/Drugs';
+import Drugs from '../../components/tables/Drugsss';
 import Pricelists from '../../components/tables/Pricelist';
 
 

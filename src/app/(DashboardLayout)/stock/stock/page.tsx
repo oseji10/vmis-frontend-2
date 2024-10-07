@@ -5,17 +5,14 @@ import DashboardCard from '@/app/(DashboardLayout)/components/shared/DashboardCa
 
 import ProductPerformance from '../../components/dashboard/ProductPerformance';
 
-
-
-import Drugs from '../../components/tables/Drugsss';
-import Manufacturers from '../../components/tables/Manufacturer';
+import Stocks from '../../components/tables/Stock';
 
 
 const SamplePage = () => {
   return (
     <PageContainer title="Diseases" description="List of all diseases">
       <DashboardCard >
-        <Manufacturers/>
+        <Stocks/>
       </DashboardCard>
     </PageContainer>
   );

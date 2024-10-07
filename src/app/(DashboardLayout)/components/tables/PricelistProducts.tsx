@@ -196,7 +196,7 @@ const PricelistProducts = () => {
             supplierMarkup,
             consultantMarkup,
             bankCharges,
-            otherCharges,
+            // otherCharges,
         };
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pricelist_products`, {
@@ -208,10 +208,11 @@ const PricelistProducts = () => {
             });
       
             if (response.ok) {
-              const newPharmacist = await response.json();
+              const newPricelistProducts = await response.json();
               setPricelistProducts([...pricelistproducts, newPricelistProducts]);
               setFilteredPricelistProducts([...pricelistproducts, newPricelistProducts]);
               handleCloseAddModal();
+                router.refresh();
             } else {
               console.error('Error adding price');
             }
@@ -284,7 +285,14 @@ const PricelistProducts = () => {
                                 <TableCell><Typography sx={{ fontSize: "15px", fontWeight: "500" }}>{pricelistproduct?.productId?.productName} {pricelistproduct?.productId?.productDescription} {pricelistproduct?.productId?.formulation}</Typography></TableCell>
                                 <TableCell>
                                     <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>
-                                        {`₦${(pricelistproduct?.landedCost + pricelistproduct?.supplierMarkup).toFixed(2)}`}
+                                    {`₦${(
+  (Number(pricelistproduct?.landedCost) || 0) + 
+  (Number(pricelistproduct?.supplierMarkup) || 0) +
+  (Number(pricelistproduct?.hospitalMarkup) || 0) +
+  (Number(pricelistproduct?.consultantMarkup) || 0) +
+  (Number(pricelistproduct?.bankCharges) || 0)
+).toFixed(2)}`}
+
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
@@ -408,14 +416,14 @@ const PricelistProducts = () => {
       type='number'
     />
 
-    <TextField
+    {/* <TextField
     type='number'
       fullWidth
       label="Other Charges"
       value={otherCharges}
       onChange={(e) => setOtherCharges(e.target.value)}
       sx={{ mb: 2 }}
-    />
+    /> */}
 
     <Button variant="contained" color="primary" onClick={handleAddPricelistProduct}>
       Add Pricing

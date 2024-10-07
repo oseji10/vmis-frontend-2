@@ -21,15 +21,15 @@ import { Visibility } from '@mui/icons-material';
 import DashboardCard from '@/app/(DashboardLayout)//components/shared/DashboardCard';
 import { useEffect, useState } from 'react';
 
-const Pharmacists = () => {
-  const [pharmacists, setPharmacists] = useState<Pharmacist[]>([]);
-  const [filteredPharmacists, setFilteredPharmacists] = useState<Pharmacist[]>([]);
+const Stocks = () => {
+  const [stocks, setStocks] = useState<Stock[]>([]);
+  const [filteredStocks, setFilteredStocks] = useState<Stock[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
   const [openAddModal, setOpenAddModal] = useState(false); // Add modal state
   const [openDetailsModal, setOpenDetailsModal] = useState(false); // Details modal state
-  const [selectedPharmacist, setSelectedPharmacist] = useState<Pharmacist | null>(null); // To store pharmacist details
+  const [selectedStock, setSelectedStock] = useState<Stock | null>(null); // To store stock details
   const [hospitals, setHospitals] = useState([]); // Contact persons from API
   const [selectedHospital, setSelectedHospital] = useState(''); // Selected contact person
   const [firstName, setFirstName] = useState('');
@@ -52,11 +52,11 @@ const Pharmacists = () => {
     borderRadius: '8px',
   };
 
-  // Fetch pharmacists from the API
+  // Fetch stocks from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pharmacists`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/stocks`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -64,10 +64,10 @@ const Pharmacists = () => {
         });
 
         const data = await response.json();
-        setPharmacists(data);
-        setFilteredPharmacists(data);
+        setStocks(data);
+        setFilteredStocks(data);
       } catch (error) {
-        console.error('Error fetching pharmacists:', error);
+        console.error('Error fetching stocks:', error);
       }
     };
 
@@ -98,10 +98,10 @@ const Pharmacists = () => {
   const handleSearch = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchTerm(value);
-    const filtered = pharmacists.filter((pharmacist) =>
-      `${pharmacist?.pharmacistName}`.toLowerCase().includes(value)
+    const filtered = stocks.filter((stock) =>
+      `${stock?.stockName}`.toLowerCase().includes(value)
     );
-    setFilteredPharmacists(filtered);
+    setFilteredStocks(filtered);
     setCurrentPage(0);
   };
 
@@ -115,21 +115,21 @@ const Pharmacists = () => {
     setCurrentPage(0);
   };
 
-  // Handle modal open/close for adding a pharmacist
+  // Handle modal open/close for adding a stock
   const handleOpenAddModal = () => setOpenAddModal(true);
   const handleCloseAddModal = () => setOpenAddModal(false);
 
   // Handle opening the details modal
-  const handleOpenDetailsModal = (pharmacist: Pharmacist) => {
-    setSelectedPharmacist(pharmacist);
+  const handleOpenDetailsModal = (stock: Stock) => {
+    setSelectedStock(stock);
     setOpenDetailsModal(true);
   };
 
   const handleCloseDetailsModal = () => setOpenDetailsModal(false);
 
-  // Handle form submission for adding a pharmacist
-  const handleAddPharmacist = async () => {
-    const pharmacistData = {
+  // Handle form submission for adding a stock
+  const handleAddStock = async () => {
+    const stockData = {
       firstName,
       otherNames,
       gender,
@@ -139,34 +139,34 @@ const Pharmacists = () => {
     };
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pharmacists`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/stocks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(pharmacistData),
+        body: JSON.stringify(stockData),
       });
 
       if (response.ok) {
-        const newPharmacist = await response.json();
-        setPharmacists([...pharmacists, newPharmacist]);
-        setFilteredPharmacists([...pharmacists, newPharmacist]);
+        const newStock = await response.json();
+        setStocks([...stocks, newStock]);
+        setFilteredStocks([...stocks, newStock]);
         handleCloseAddModal();
       } else {
-        console.error('Error adding pharmacist');
+        console.error('Error adding stock');
       }
     } catch (error) {
-      console.error('Error adding pharmacist:', error);
+      console.error('Error adding stock:', error);
     }
   };
 
-  const paginatedPharmacists = filteredPharmacists?.slice(
+  const paginatedStocks = filteredStocks?.slice(
     currentPage * recordsPerPage,
     currentPage * recordsPerPage + recordsPerPage
   );
 
   return (
-    <DashboardCard title="Pharmacists List">
+    <DashboardCard title="Stocks List">
       <Box
         display="flex"
         justifyContent="space-between"
@@ -175,12 +175,12 @@ const Pharmacists = () => {
         alignItems={{ xs: 'stretch', sm: 'center' }}
         gap={{ xs: 2, sm: 0 }}
       >
-        <Button variant="contained" onClick={handleOpenAddModal} disableElevation color="primary" sx={{ width: { xs: '100%', sm: 'auto' } }}>
-          Add Pharmacist
-        </Button>
+        {/* <Button variant="contained" onClick={handleOpenAddModal} disableElevation color="primary" sx={{ width: { xs: '100%', sm: 'auto' } }}>
+          Add Stock
+        </Button> */}
         <TextField
           variant="outlined"
-          label="Search by Pharmacist Name"
+          label="Search by Stock Name"
           value={searchTerm}
           onChange={handleSearch}
           sx={{ width: { xs: '100%', sm: 300 } }}
@@ -191,38 +191,50 @@ const Pharmacists = () => {
         <Table aria-label="simple table" sx={{ whiteSpace: 'nowrap', mt: 2 }}>
           <TableHead>
             <TableRow>
-              <TableCell>Pharmacist Name</TableCell>
-              <TableCell>Gender</TableCell>
-              <TableCell>Hospital</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell align="right">Date Created</TableCell>
+              <TableCell>Stock ID</TableCell>
+              <TableCell>Product Name</TableCell>
+              <TableCell align='center'>Quantity Received</TableCell>
+              <TableCell align='center'>Quantity in Stock</TableCell>
+              <TableCell align="center">Date Suplied</TableCell>
+              <TableCell align="center">Status</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedPharmacists?.map((pharmacist) => (
-              <TableRow key={pharmacist.id}>
-                <TableCell>{`${pharmacist?.firstName} ${pharmacist?.otherNames}`}</TableCell>
-                <TableCell>{pharmacist?.gender}</TableCell>
-                <TableCell>{pharmacist?.hospitalId?.shortName}</TableCell>
+            {paginatedStocks?.map((stock) => (
+              <TableRow key={stock.id}>
+                <TableCell>{stock?.stockId}</TableCell>
+                <TableCell>{stock?.productId.productName} {stock?.productId.productDescription}</TableCell>
+                  <TableCell align='center'>{stock?.quantityReceived}</TableCell>
+                <TableCell align='center'>
+                {`${(
+  (Number(stock?.quantityReceived) || 0) -( 
+  (Number(stock?.quantitySold) || 0) +
+  (Number(stock?.quantityExpired) || 0) +
+  (Number(stock?.quantityRetrieved) || 0) +
+  (Number(stock?.quantityDamaged) || 0))
+)}`}
+                  
+                </TableCell>
+                <TableCell>{stock?.createdAt}</TableCell>
                 <TableCell>
                   <Chip
                     sx={{
                       backgroundColor:
-                        pharmacist.status === 'inactive'
+                        stock.status === 'inactive'
                           ? 'error.main'
-                          : pharmacist.status === 'active'
+                          : stock.status === 'active'
                           ? 'success.main'
                           : 'secondary.main',
                       color: '#fff',
                     }}
                     size="small"
-                    label={pharmacist?.status || 'N/A'}
+                    label={stock?.status || 'N/A'}
                   />
                 </TableCell>
-                <TableCell align="right">{/* Date Formatting */}</TableCell>
+                {/* <TableCell align="right">Date Formatting</TableCell> */}
                 <TableCell align="center">
-                  <IconButton onClick={() => handleOpenDetailsModal(pharmacist)}>
+                  <IconButton onClick={() => handleOpenDetailsModal(stock)}>
                     <Visibility />
                   </IconButton>
                 </TableCell>
@@ -234,7 +246,7 @@ const Pharmacists = () => {
 
       <TablePagination
         component="div"
-        count={filteredPharmacists.length}
+        count={filteredStocks.length}
         page={currentPage}
         onPageChange={handleChangePage}
         rowsPerPage={recordsPerPage}
@@ -242,7 +254,7 @@ const Pharmacists = () => {
         rowsPerPageOptions={[5, 10, 25]}
       />
 
-      {/* Modal for Adding Pharmacist */}
+      {/* Modal for Adding Stock */}
       <Modal open={openAddModal} onClose={handleCloseAddModal}>
         <Box   sx={{ 
       ...modalStyle, 
@@ -251,7 +263,7 @@ const Pharmacists = () => {
     }}
   >
           <Typography variant="h6" mb={2}>
-            Add Pharmacist
+            Add Stock
           </Typography>
           <TextField
             fullWidth
@@ -303,36 +315,43 @@ const Pharmacists = () => {
               ))}
             </Select>
           </FormControl>
-          <Button variant="contained" color="primary" onClick={handleAddPharmacist}>
-            Add Pharmacist
+          <Button variant="contained" color="primary" onClick={handleAddStock}>
+            Add Stock
           </Button>
         </Box>
       </Modal>
 
-      {/* Modal for Pharmacist Details */}
-      {selectedPharmacist && (
+      {/* Modal for Stock Details */}
+      {selectedStock && (
         <Modal open={openDetailsModal} onClose={handleCloseDetailsModal}>
           <Box sx={modalStyle}>
             <Typography variant="h6" mb={2}>
-              Pharmacist Details
+            Drug ID: {selectedStock?.productId.shortName}<br/>
+            Drug Name: {selectedStock?.productId.productName} {selectedStock?.productId.productDescription}<br/>
+            Batch Number: {selectedStock?.batchNumber}
             </Typography>
             <Typography variant="body1">
-              <strong>Name:</strong> {`${selectedPharmacist?.firstName} ${selectedPharmacist?.otherNames}`}
+              <strong>Quantity Received:</strong> {selectedStock?.quantityReceived || "0"}
             </Typography>
             <Typography variant="body1">
-              <strong>Email:</strong> {selectedPharmacist?.userId?.email}
+              <strong>QuantitySold:</strong> {selectedStock?.quantitySold || "0"}
             </Typography>
             <Typography variant="body1">
-              <strong>Gender:</strong> {selectedPharmacist?.gender}
+              <strong>Quantity Retrieved:</strong> {selectedStock?.quantityRetrieved || "0"}
             </Typography>
             <Typography variant="body1">
-              <strong>Phone Number:</strong> {selectedPharmacist?.userId?.phoneNumber}
+              <strong>Quantity Damaged:</strong> {selectedStock?.quantityDamaged || "0"}
             </Typography>
             <Typography variant="body1">
-              <strong>Hospital:</strong> {selectedPharmacist?.hospitalId?.shortName}
+              <strong>Quantity Expired:</strong> {selectedStock?.quantityExpired || "0"}
             </Typography>
+
             <Typography variant="body1">
-              <strong>Status:</strong> {selectedPharmacist?.status}
+              <strong>Quantity Available:</strong> <strong style={{color:'red'}}>{selectedStock?.quantityExpired || "0"}</strong>
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>Expiry Date:</strong> {selectedStock?.expiryDate || "0"}
             </Typography>
           </Box>
         </Modal>
@@ -341,4 +360,4 @@ const Pharmacists = () => {
   );
 };
 
-export default Pharmacists;
+export default Stocks;

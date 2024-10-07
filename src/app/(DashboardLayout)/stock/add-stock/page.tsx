@@ -2,20 +2,16 @@
 import { Typography } from '@mui/material';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 import DashboardCard from '@/app/(DashboardLayout)/components/shared/DashboardCard';
-
-import ProductPerformance from '../../components/dashboard/ProductPerformance';
-
-
-
-import Drugs from '../../components/tables/Drugsss';
-import Manufacturers from '../../components/tables/Manufacturer';
+import NomineesTable from '../../components/tables/HospitalsTable';
+import AddNomineeForm from '../../components/forms/theme-elements/AddNominee';
 
 
 const SamplePage = () => {
   return (
-    <PageContainer title="Diseases" description="List of all diseases">
+    <PageContainer title="Nominees" description="Nomination Form">
       <DashboardCard >
-        <Manufacturers/>
+        {/* <Typography>All Nominees</Typography> */}
+        <AddNomineeForm/>
       </DashboardCard>
     </PageContainer>
   );
