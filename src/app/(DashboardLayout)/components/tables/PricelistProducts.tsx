@@ -457,7 +457,7 @@ const PricelistProducts = () => {
                     <Typography><strong>Hospital Markup:</strong>  {selectedPricelistProduct?.hospitalMarkup !== undefined ? `₦${selectedPricelistProduct.hospitalMarkup.toFixed(2)}` : 'N/A'}</Typography>
                     <Typography><strong>Consultant Markup:</strong>  {selectedPricelistProduct?.consultantMarkup !== undefined ? `₦${selectedPricelistProduct.consultantMarkup.toFixed(2)}` : 'N/A'}</Typography>
                     <Typography><strong>Bank Charges:</strong>  {selectedPricelistProduct?.bankCharges !== undefined ? `₦${selectedPricelistProduct.bankCharges.toFixed(2)}` : 'N/A'}</Typography>
-                    <Typography><strong>Other Charges:</strong>  {selectedPricelistProduct?.otherCharges !== undefined ? `₦${selectedPricelistProduct.otherCharges.toFixed(2)}` : 'N/A'}</Typography>
+                    {/* <Typography><strong>Other Charges:</strong>  {selectedPricelistProduct?.otherCharges !== undefined ? `₦${selectedPricelistProduct.otherCharges.toFixed(2)}` : 'N/A'}</Typography> */}
                     <Typography><strong>Status:</strong> {selectedPricelistProduct?.status}</Typography>
                     <Typography><strong>Date Created:</strong> {selectedPricelistProduct?.createdAt}</Typography>
                 </Box>

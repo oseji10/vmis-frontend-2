@@ -15,9 +15,11 @@ import {
     Select,
     InputLabel,
     FormControl,
+    IconButton,
   } from '@mui/material';
   import DashboardCard from '@/app/(DashboardLayout)//components/shared/DashboardCard';
   import { useEffect, useState } from 'react';
+import { Visibility } from '@mui/icons-material';
   
   const Patients = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
@@ -26,11 +28,22 @@ import {
     const [currentPage, setCurrentPage] = useState(0);
     const [recordsPerPage, setRecordsPerPage] = useState(10);
     const [open, setOpen] = useState(false); // Modal state
-    const [stateOfOrigin, setStateOfOrigin] = useState([]); // Contact persons from API
-    const [selectedStateOfOrigin, setSelectedStateOfOrigin] = useState(''); // Selected contact person
+    const [stateOfOrigin, setStateOfOrigin] = useState([]); 
+    const [stateOfResidence, setStateOfResidence] = useState([]); // Contact persons from API
+    const [selectedStateOfOrigin, setSelectedStateOfOrigin] = useState(''); 
+    const [selectedStateOfResidence, setSelectedStateOfResidence] = useState(''); 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [otherNames, setOtherNames] = useState(''); 
+    const [openDetailsModal, setOpenDetailsModal] = useState(false); // Details modal state
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+
+  const [diseases, setDiseases] = useState([]); 
+  const [selectedDisease, setSelectedDisease] = useState('');
+  const [selectedGender, setSelectedGender] = useState('');
+  const [selectedMaritalStatus, setSelectedMaritalStatus] = useState('');
+  
+  const [hospitalFileNumber, setHospitalFileNumber] = useState('');
 
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState(''); 
@@ -72,9 +85,9 @@ import {
       fetchData();
     }, []);
   
-    // Fetch contact persons for dropdown from the API
+    
     useEffect(() => {
-      const fetchContactPersons = async () => {
+      const fetchStates = async () => {
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/states`, {
             method: 'GET',
@@ -84,12 +97,33 @@ import {
           });
           const data = await response.json();
           setStateOfOrigin(data);
+          setStateOfResidence(data);
         } catch (error) {
           console.error('Error fetching state of origin:', error);
         }
       };
   
-      fetchContactPersons();
+      fetchStates();
+    }, []);
+
+
+    useEffect(() => {
+      const fetchDiseases = async () => {
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/diseases`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const data = await response.json();
+          setDiseases(data);
+        } catch (error) {
+          console.error('Error fetching diseases:', error);
+        }
+      };
+  
+      fetchDiseases();
     }, []);
   
     // Handle search functionality
@@ -129,6 +163,14 @@ import {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
   
+      // Handle opening the details modal
+  const handleOpenDetailsModal = (patient: Patient) => {
+    setSelectedPatient(patient);
+    setOpenDetailsModal(true);
+  };
+
+  const handleCloseDetailsModal = () => setOpenDetailsModal(false);
+
     // Handle form submission for adding a patient
     const handleAddPatient = async () => {
       const patientData = {
@@ -138,6 +180,12 @@ import {
         email,
         phoneNumber,
         stateOfOrigin: selectedStateOfOrigin,
+        stateOfResidence: selectedStateOfResidence,
+        diseaseType: selectedDisease,
+        gender: selectedGender,
+        maritalStatus: selectedMaritalStatus,
+        hospitalFileNumber
+
       };
   
       try {
@@ -168,6 +216,18 @@ import {
       currentPage * recordsPerPage + recordsPerPage
     );
   
+    const genders = [
+      {id: "1", gender: "Male"},
+      {id: "2", gender: "Female"}
+    ];
+
+    const maritalStatuses = [
+      {id: "1", status: "Married"},
+      {id: "2", status: "Single"},
+      {id: "3", status: "Divorced"},
+      {id: "4", status: "Widow"},
+      {id: "5", status: "Widower"},
+    ]
     return (
       <DashboardCard title="Patients List">
         <Box
@@ -221,9 +281,22 @@ import {
                     Gender
                   </Typography>
                 </TableCell>
-                <TableCell align="right">
+
+                <TableCell>
+                  <Typography variant="subtitle2" fontWeight={600}>
+                    Status
+                  </Typography>
+                </TableCell>
+
+                <TableCell align="center">
                   <Typography variant="subtitle2" fontWeight={600}>
                     Date Enrolled
+                  </Typography>
+                </TableCell>
+
+                <TableCell align="center">
+                  <Typography variant="subtitle2" fontWeight={600}>
+                    Action
                   </Typography>
                 </TableCell>
               </TableRow>
@@ -244,7 +317,13 @@ import {
   
                   <TableCell>
                     <Typography variant="subtitle2" fontWeight={600}>
-                      {/* {patient?.hospital}  */}
+                      {patient?.hospital?.shortName} 
+                    </Typography>
+                  </TableCell>
+
+                  <TableCell>
+                    <Typography variant="subtitle2" fontWeight={600}>
+                      {patient?.gender} 
                     </Typography>
                   </TableCell>
   
@@ -265,8 +344,15 @@ import {
                     />
                   </TableCell>
                   <TableCell align="right">
-                    <Typography variant="h6">{/* Date Formatting */}</Typography>
+                    <Typography variant="h6">{new Date(patient?.createdAt).toLocaleDateString()}</Typography>
                   </TableCell>
+
+                  <TableCell align="center">
+                  <IconButton onClick={() => handleOpenDetailsModal(patient)}>
+                    <Visibility />
+                  </IconButton>
+                </TableCell>
+
                 </TableRow>
               ))}
             </TableBody>
@@ -295,6 +381,13 @@ import {
             <Typography variant="h6" mb={2}>
               Add Patient
             </Typography>
+            <TextField
+              fullWidth
+              label="Hospital Number"
+              value={hospitalFileNumber}
+              onChange={(e) => setHospitalFileNumber(e.target.value)}
+              sx={{ mb: 2 }}
+            />
             <TextField
               fullWidth
               label="First Name"
@@ -348,7 +441,64 @@ import {
   </Select>
 </FormControl>
 
+<FormControl fullWidth sx={{ mb: 2 }}>
+  <InputLabel>Select State Of Residence</InputLabel>
+  <Select
+    value={selectedStateOfResidence}
+    onChange={(e) => setSelectedStateOfResidence(e.target.value)}  // Check if this updates correctly
+  >
+    {stateOfResidence.map((state) => (
+      <MenuItem key={state.id} value={state.id}>
+        {state.stateName} 
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
+
+
+<FormControl fullWidth sx={{ mb: 2 }}>
+  <InputLabel>Select Disease Type</InputLabel>
+  <Select
+    value={selectedDisease}
+    onChange={(e) => setSelectedDisease(e.target.value)}  // Check if this updates correctly
+  >
+    {diseases.map((disease) => (
+      <MenuItem key={disease.id} value={disease.id}>
+        {disease.diseaseName} 
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
+
+
+<FormControl fullWidth sx={{ mb: 2 }}>
+  <InputLabel>Select Gender</InputLabel>
+  <Select
+    value={selectedGender}
+    onChange={(e) => setSelectedGender(e.target.value)}  
+  >
+    {genders.map((gender) => (
+      <MenuItem key={gender.id} value={gender.gender}>
+        {gender.gender} 
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
   
+
+<FormControl fullWidth sx={{ mb: 2 }}>
+  <InputLabel>Select Marital Status</InputLabel>
+  <Select
+    value={selectedMaritalStatus}
+    onChange={(e) => setSelectedMaritalStatus(e.target.value)}  // Check if this updates correctly
+  >
+    {maritalStatuses.map((maritalStatus) => (
+      <MenuItem key={maritalStatus.id} value={maritalStatus.status}>
+        {maritalStatus.status} 
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
             <Box display="flex" justifyContent="flex-end" flexDirection={{ xs: 'column', sm: 'row' }}>
               <Button
                 variant="outlined"
@@ -369,6 +519,65 @@ import {
             </Box>
           </Box>
         </Modal>
+
+
+       { /* Modal for Pharmacist Details */}
+      {selectedPatient && (
+        <Modal open={openDetailsModal} onClose={handleCloseDetailsModal}>
+          <Box sx={{
+            ...modalStyle,
+            maxHeight: '80vh', // Set max height to 80% of the viewport height
+            overflowY: 'auto'
+          }}>
+            <Typography variant="h6" mb={2}>
+              Patient Details
+            </Typography>
+            <Typography variant="body1">
+              <strong>Patient ID:</strong> {selectedPatient?.id}
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>Hospital Number:</strong> {selectedPatient?.hospitalFileNumber}
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>Name:</strong> {`${selectedPatient?.firstName} ${selectedPatient?.lastName} ${selectedPatient?.otherNames}`}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Email:</strong> {selectedPatient?.user?.email}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Phone Number:</strong> {selectedPatient?.user?.phoneNumber}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Gender:</strong> {selectedPatient?.gender}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Hospital:</strong> {selectedPatient?.hospital?.shortName}
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>Cancer Type:</strong> {selectedPatient?.diseaseType?.diseaseName}
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>State of Origin:</strong> {selectedPatient?.stateOfOrigin?.stateName}
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>State of Residence:</strong> {selectedPatient?.stateOfResidence?.stateName}
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>Marital Status:</strong> {selectedPatient?.maritalStatus}
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>Status:</strong> {selectedPatient?.status}
+            </Typography>
+          </Box>
+        </Modal>
+      )}
       </DashboardCard>
     );
   };

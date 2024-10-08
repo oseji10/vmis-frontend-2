@@ -329,7 +329,7 @@ const removeFromCart = (indexToRemove) => {
                                     Status
                                 </Typography>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell>
                                 <Typography variant="subtitle2" fontWeight={600}>
                                     Date Created
                                 </Typography>
@@ -390,7 +390,8 @@ const removeFromCart = (indexToRemove) => {
                                 </TableCell>
                                 <TableCell>
                                     <Typography>
-                                        {request?.createdAt}
+                                        {/* {request?.createdAt} */}
+                                        {new Date(request.createdAt).toLocaleDateString()}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>

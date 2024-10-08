@@ -267,8 +267,8 @@ const Transactions = () => {
         product: { id: selectedProduct },
         productName: product.productName, // Include product name
         productDescription: product.productDescription, // Include product description
-        quantityTransactioned: quantity,
-        transactionedBy: { id: "3cc433d3-1e4a-4b45-81df-2f7b4f6227bb" },
+        quantitySold: quantity,
+        soldBy: "3cc433d3-1e4a-4b45-81df-2f7b4f6227bb",
       };
       setCart([...cart, cartItem]);
       setQuantity(1);  // Reset quantity for next item
@@ -285,13 +285,27 @@ const Transactions = () => {
 
   const handleAddTransaction = async () => {
     try {
+      // Ensure cart is an array
+      if (!Array.isArray(cart)) {
+        throw new Error("Cart must be an array");
+      }
+    
       // Format the data according to the API requirements
       const transactionData = {
         transactionRequest: {
-          hospital: { id: selectedHospital }  // Assuming you have hospitalId from state or context
+          hospital: { id: selectedHospital },
+          paymentMode: "Transfer",
+          soldBy: "a098696c-39b6-4069-ba35-bf975fce4d77",
         },
-        salesRequest: cart,  // Use the cart directly as the array of items
+        salesRequest: cart.map(item => ({
+          // Assuming each item in the cart has the necessary properties
+          product: item.product, // Adjust based on your cart structure
+          quantitySold: item.quantitySold,
+          // soldBy: "3cc433d3-1e4a-4b45-81df-2f7b4f6227bb", 
+          hospital: { id: selectedHospital },// Example property
+        })),
       };
+    
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sales/new-sale`, {
         method: 'POST',
@@ -363,7 +377,7 @@ const Transactions = () => {
                   Status
                 </Typography>
               </TableCell>
-              <TableCell align="right">
+              <TableCell >
                 <Typography variant="subtitle2" fontWeight={600}>
                   Date Created
                 </Typography>
@@ -428,7 +442,8 @@ const Transactions = () => {
                 </TableCell>
                 <TableCell>
                   <Typography>
-                    {transaction?.createdAt}
+                    {/* {transaction?.createdAt} */}
+                    {new Date(transaction.createdAt).toLocaleDateString()}
                   </Typography>
                 </TableCell>
                 <IconButton onClick={() => {
@@ -540,7 +555,7 @@ const Transactions = () => {
               <Box key={index} display="flex" justifyContent="space-between" mb={1}>
                 <Typography>{item.productName} - {item.productDescription}</Typography>
                 <Box display="flex" alignItems="center">
-                  <Typography>{item.quantityTransactioned}</Typography>
+                  <Typography>{item.quantitySold}</Typography>
                   <IconButton
                     aria-label="delete"
                     onClick={() => removeFromCart(index)}  // Call the remove function on click

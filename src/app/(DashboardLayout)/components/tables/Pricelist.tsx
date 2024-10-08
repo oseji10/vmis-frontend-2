@@ -199,7 +199,7 @@ const Pricelists = () => {
                             </TableCell>
                             <TableCell align="right">
                                 <Typography variant="subtitle2" fontWeight={600}>
-                                    Date Created
+                                    Date Added
                                 </Typography>
                             </TableCell>
 
@@ -258,7 +258,7 @@ const Pricelists = () => {
                                 </TableCell>
                                 <TableCell>
                                     <Typography>
-                                        {pricelist?.createdAt}
+                                    <Typography variant="h6">{new Date(pricelist?.createdAt).toLocaleDateString()}</Typography>
                                     </Typography>
                                 </TableCell>
                                 <TableCell>

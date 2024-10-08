@@ -254,7 +254,7 @@ import {
                     />
                   </TableCell>
                   <TableCell align="right">
-                    <Typography variant="h6">{/* Date Formatting */}</Typography>
+                  <Typography variant="h6">{new Date(hospital?.createdAt).toLocaleDateString()}</Typography>
                   </TableCell>
                 </TableRow>
               ))}

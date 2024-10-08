@@ -194,8 +194,8 @@ const Pharmacists = () => {
               <TableCell>Pharmacist Name</TableCell>
               <TableCell>Gender</TableCell>
               <TableCell>Hospital</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell align="right">Date Created</TableCell>
+              {/* <TableCell>Status</TableCell> */}
+              <TableCell align="center">Date Added</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -205,7 +205,7 @@ const Pharmacists = () => {
                 <TableCell>{`${pharmacist?.firstName} ${pharmacist?.otherNames}`}</TableCell>
                 <TableCell>{pharmacist?.gender}</TableCell>
                 <TableCell>{pharmacist?.hospitalId?.shortName}</TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <Chip
                     sx={{
                       backgroundColor:
@@ -219,8 +219,8 @@ const Pharmacists = () => {
                     size="small"
                     label={pharmacist?.status || 'N/A'}
                   />
-                </TableCell>
-                <TableCell align="right">{/* Date Formatting */}</TableCell>
+                </TableCell> */}
+                <TableCell align="center">{new Date(pharmacist.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell align="center">
                   <IconButton onClick={() => handleOpenDetailsModal(pharmacist)}>
                     <Visibility />

@@ -272,7 +272,7 @@ const RequestItems = () => {
                             <TableCell>Qty Dispatched</TableCell>
                             <TableCell>Qty Received</TableCell>
                             <TableCell>Status</TableCell>
-                            <TableCell align="right">Date Created</TableCell>
+                            <TableCell align="center">Date Requested</TableCell>
                             <TableCell align="center">Actions</TableCell>
                         </TableRow>
                     </TableHead>
@@ -310,7 +310,7 @@ const RequestItems = () => {
                                                             'N/A'}
                                     />
                                 </TableCell>
-                                <TableCell align="right">{/* Date Formatting */}</TableCell>
+                                <TableCell align="center">{new Date(requestitem.createdAt).toLocaleDateString()}</TableCell>
                                 <TableCell align="center">
                                     <IconButton onClick={() => handleOpenDetailsModal(requestitem)}>
                                         <Visibility />

@@ -261,7 +261,7 @@ import {
                 </TableCell>
                 <TableCell align="right">
                   <Typography variant="subtitle2" fontWeight={600}>
-                    Date Created
+                    Date Added
                   </Typography>
                 </TableCell>
               </TableRow>
@@ -316,7 +316,7 @@ import {
                     />
                   </TableCell>
                   <TableCell align="right">
-                    <Typography variant="h6">{/* Date Formatting */}</Typography>
+                  <Typography variant="h6">{new Date(drug?.createdAt).toLocaleDateString()}</Typography>
                   </TableCell>
                 </TableRow>
               ))}
