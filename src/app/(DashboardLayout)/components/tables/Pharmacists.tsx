@@ -35,9 +35,9 @@ const Pharmacists = () => {
   const [firstName, setFirstName] = useState('');
   const [otherNames, setOtherNames] = useState('');
   const [email, setEmail] = useState(''); // Location state
-  const [gender, setGender] = useState('');
+  // const [gender, setGender] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-
+  const [selectedGender, setSelectedGender] = useState('');
   // Modal style
   const modalStyle = {
     position: 'absolute',
@@ -132,7 +132,7 @@ const Pharmacists = () => {
     const pharmacistData = {
       firstName,
       otherNames,
-      gender,
+      gender: selectedGender,
       email,
       phoneNumber,
       hospitalId: selectedHospital,
@@ -164,6 +164,11 @@ const Pharmacists = () => {
     currentPage * recordsPerPage,
     currentPage * recordsPerPage + recordsPerPage
   );
+
+  const genders = [
+    {id: "1", gender: "Male"},
+    {id: "2", gender: "Female"}
+  ];
 
   return (
     <DashboardCard title="Pharmacists List">
@@ -267,19 +272,26 @@ const Pharmacists = () => {
             onChange={(e) => setOtherNames(e.target.value)}
             sx={{ mb: 2 }}
           />
-          <TextField
-            fullWidth
-            label="Gender"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-            sx={{ mb: 2 }}
-          />
+       <FormControl fullWidth sx={{ mb: 2 }}>
+  <InputLabel>Select Gender</InputLabel>
+  <Select
+    value={selectedGender}
+    onChange={(e) => setSelectedGender(e.target.value)}  
+  >
+    {genders.map((gender) => (
+      <MenuItem key={gender.id} value={gender.gender}>
+        {gender.gender} 
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
           <TextField
             fullWidth
             label="Phone Number"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             sx={{ mb: 2 }}
+            type='number'
           />
           <TextField
             fullWidth
@@ -287,6 +299,7 @@ const Pharmacists = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             sx={{ mb: 2 }}
+            type='email'
           />
           <FormControl fullWidth sx={{ mb: 2 }}>
             <InputLabel id="hospital-label">Select Hospital</InputLabel>

@@ -9,13 +9,18 @@ const LinkStyled = styled(Link)(() => ({
   display: "block",
 }));
 
-const Logo = () => {
+const OurLogo = () => {
   return (
     <LinkStyled href="/">
-      <Image src="/images/logos/dark-logo.svg" alt="logo" height={70} width={174} priority />
+      <Image 
+        src="/images/logos/ResilienceLogo.png" 
+        alt="logo" 
+        width={180} 
+        height={70} 
+        priority 
+      />
     </LinkStyled>
   );
 };
 
-export default Logo;
-  
+export default OurLogo;

@@ -240,7 +240,7 @@ const Requests = () => {
             productName: product.productName, // Include product name
             productDescription: product.productDescription, // Include product description
             quantityRequested: quantity,
-            requestedBy: { id: "3cc433d3-1e4a-4b45-81df-2f7b4f6227bb" },
+            requestedBy: { id: "698cf3d2-606f-40de-8f69-88f3f0e44541" },
         };
         setCart([...cart, cartItem]);
         setQuantity(1);  // Reset quantity for next item
@@ -425,7 +425,11 @@ const removeFromCart = (indexToRemove) => {
           
       {/* Modal for Adding Request */}
       <Modal open={openAddModal} onClose={handleCloseAddModal}>
-        <Box sx={modalStyle}>
+        <Box sx={{
+           ...modalStyle, 
+           maxHeight: '80vh', // Set max height to 80% of the viewport height
+           overflowY: 'auto',
+        }}>
           <Typography variant="h6" mb={2}>Add New Request</Typography>
 
 

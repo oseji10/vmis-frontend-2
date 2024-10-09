@@ -216,7 +216,7 @@ const Stocks = () => {
 )}`}
                   
                 </TableCell>
-                <TableCell>{stock?.createdAt}</TableCell>
+                <TableCell>{new Date(stock?.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell>
                   <Chip
                     sx={{
@@ -351,7 +351,9 @@ const Stocks = () => {
             </Typography>
 
             <Typography variant="body1">
-              <strong>Expiry Date:</strong> {selectedStock?.expiryDate || "0"}
+              <strong>Expiry Date:</strong> 
+              {new Date(selectedStock?.expiryDate).toLocaleDateString()}
+              {/* {selectedStock?.expiryDate || "0"} */}
             </Typography>
           </Box>
         </Modal>

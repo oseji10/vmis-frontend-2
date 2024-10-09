@@ -70,12 +70,7 @@ const Menuitems = [
     href: "/hospitals/hospitals",
   },
 
-  {
-    id: uniqueId(),
-    title: "Drugs",
-    icon: IconMedicineSyrup,
-    href: "/drugs/drugs",
-  },
+
 
   {
     id: uniqueId(),
@@ -90,6 +85,13 @@ const Menuitems = [
     title: "Manufacturers",
     icon: IconActivity,
     href: "/manufacturers/manufacturers",
+  },
+
+  {
+    id: uniqueId(),
+    title: "Drugs",
+    icon: IconMedicineSyrup,
+    href: "/drugs/drugs",
   },
   
   {
@@ -108,17 +110,19 @@ const Menuitems = [
 
   {
     id: uniqueId(),
+    title: "Stock",
+    icon: IconStack3,
+    href: "/stock/stock",
+  },
+
+  {
+    id: uniqueId(),
     title: "Transactions",
     icon: IconMoneybag,
     href: "/transactions/transactions",
   },
 
-  {
-    id: uniqueId(),
-    title: "Stock",
-    icon: IconStack3,
-    href: "/stock/stock",
-  },
+
 
   {
     id: uniqueId(),

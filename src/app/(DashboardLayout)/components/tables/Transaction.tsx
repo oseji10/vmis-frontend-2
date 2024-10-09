@@ -191,39 +191,6 @@ const Transactions = () => {
   //   setOpenDetailsModal(true);
   // };
 
-  const handleCloseDetailsModal = () => setOpenDetailsModal(false);
-
-  // Handle form submission for adding a transaction
-  //   const handleAddTransaction = async () => {
-  //     const transactionData = {
-  //       transactionId,
-  //       transactionName,
-  //     //   selectedSupplier
-
-  //     };
-
-  //     try {
-  //       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/drug-transaction/new-transaction`, {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify(transactionData),
-  //       });
-
-  //       if (response.ok) {
-  //         const newtransaction = await response.json();
-  //         setTransactions([...transactions, newtransaction]);
-  //         setFilteredTransactions([...transactions, newtransaction]);
-  //         handleCloseAddModal();
-  //         router.refresh();
-  //       } else {
-  //         console.error('Error adding transaction');
-  //       }
-  //     } catch (error) {
-  //       console.error('Error adding transaction:', error);
-  //     }
-  //   };
 
 
   // Fetch products for dropdown
@@ -328,7 +295,7 @@ const Transactions = () => {
 
 
   return (
-    <DashboardCard title="Drug Transactions">
+    <DashboardCard title="Hospital Transactions">
       <Box display="flex" justifyContent="space-between" mb={2}>
         <Button variant="contained" onClick={handleOpenAddModal} disableElevation color="primary" sx={{ width: { xs: '100%', sm: 'auto' } }}>
           New Transaction
@@ -337,7 +304,7 @@ const Transactions = () => {
         &nbsp;
         <TextField
           variant="outlined"
-          label="Search by Transaction Name"
+          label="Search by Transaction ID"
           value={searchTerm}
           onChange={handleSearch}
           sx={{ width: 300 }}

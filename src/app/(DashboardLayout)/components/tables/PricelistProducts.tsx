@@ -452,10 +452,10 @@ const PricelistProducts = () => {
                     <Typography variant="h6" mb={2}>Product Details</Typography>
                     <Typography><strong>Product ID:</strong> {selectedPricelistProduct?.productId?.shortName}</Typography>
                     <Typography><strong>Product Name:</strong> {selectedPricelistProduct?.productId?.productName} {selectedPricelistProduct?.productId?.productDescription} {selectedPricelistProduct?.productId?.formulation}</Typography>
-                    <Typography><strong>Landed Cost:</strong>  {selectedPricelistProduct?.landedCost !== undefined ? `₦${selectedPricelistProduct.landedCost.toFixed(2)}` : 'N/A'}</Typography>
-                    <Typography><strong>Supplier Markup:</strong>  {selectedPricelistProduct?.supplierMarkup !== undefined ? `₦${selectedPricelistProduct.supplierMarkup.toFixed(2)}` : 'N/A'}</Typography>
-                    <Typography><strong>Hospital Markup:</strong>  {selectedPricelistProduct?.hospitalMarkup !== undefined ? `₦${selectedPricelistProduct.hospitalMarkup.toFixed(2)}` : 'N/A'}</Typography>
-                    <Typography><strong>Consultant Markup:</strong>  {selectedPricelistProduct?.consultantMarkup !== undefined ? `₦${selectedPricelistProduct.consultantMarkup.toFixed(2)}` : 'N/A'}</Typography>
+                    <Typography><strong>Landed Cost:</strong>  {selectedPricelistProduct?.landedCost !== undefined ? `₦${selectedPricelistProduct?.landedCost?.toFixed(2)}` : 'N/A'}</Typography>
+                    <Typography><strong>Supplier Markup:</strong>  {selectedPricelistProduct?.supplierMarkup !== undefined ? `₦${selectedPricelistProduct?.supplierMarkup.toFixed(2)}` : 'N/A'}</Typography>
+                    <Typography><strong>Hospital Markup:</strong>  {selectedPricelistProduct?.hospitalMarkup !== undefined ? `₦${selectedPricelistProduct?.hospitalMarkup.toFixed(2)}` : 'N/A'}</Typography>
+                    <Typography><strong>Consultant Markup:</strong>  {selectedPricelistProduct?.consultantMarkup !== undefined ? `₦${selectedPricelistProduct?.consultantMarkup.toFixed(2)}` : 'N/A'}</Typography>
                     <Typography><strong>Bank Charges:</strong>  {selectedPricelistProduct?.bankCharges !== undefined ? `₦${selectedPricelistProduct.bankCharges.toFixed(2)}` : 'N/A'}</Typography>
                     {/* <Typography><strong>Other Charges:</strong>  {selectedPricelistProduct?.otherCharges !== undefined ? `₦${selectedPricelistProduct.otherCharges.toFixed(2)}` : 'N/A'}</Typography> */}
                     <Typography><strong>Status:</strong> {selectedPricelistProduct?.status}</Typography>
